@@ -10,8 +10,7 @@ node {
     def SF_INSTANCE_URL = env.SF_INSTANCE_URL ?: "https://test.salesforce.com"
 
 
-    //def toolbelt = tool 'toolbelt'
-    def toolbelt = "C:/Program Files/Salesforce CLI/bin"
+    def toolbelt = tool 'toolbelt'
 
 
     // -------------------------------------------------------------------------
