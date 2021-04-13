@@ -72,6 +72,13 @@ node {
 		//        error 'Salesforce deploy failed.'
 		//    }
 		//}
+		
+		post { 
+			always { 
+				cleanWs()
+			}
+		}
+		
 	    }
 	}
 }
