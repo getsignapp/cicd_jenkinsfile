@@ -22,7 +22,7 @@ node {
     stage('checkout source') {
         checkout scm
 	    
-	checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'src']], userRemoteConfigs: [[credentialsId: 'github', url: ${SC_URL}]]]
+	checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'src']], userRemoteConfigs: [[credentialsId: 'github', url: '${SC_URL}']]]
 	    
 	command "mkdir ${DEPLOYDIR}"
 	command "copy ${PACKAGESOURCEDIR} ${DEPLOYDIR}"
