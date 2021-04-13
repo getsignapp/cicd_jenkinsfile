@@ -9,9 +9,9 @@ node {
     def SF_INSTANCE_URL = env.SF_INSTANCE_URL ?: "https://login.salesforce.com"
     def SC_URL = env.SC_URL
 	
-    def DEPLOYDIR='src\\deploy'
-    def MAINSOURCEDIR='src\\force-app\\main\\default'
-    def PACKAGESOURCEDIR='src\\manifest\\package.xml'
+    def DEPLOYDIR='src/deploy'
+    def MAINSOURCEDIR='src/force-app/main/default'
+    def PACKAGESOURCEDIR='src/manifest/package.xml'
     
     def toolbelt = tool 'toolbelt'
 
