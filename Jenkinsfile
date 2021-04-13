@@ -20,16 +20,9 @@ node {
 	    
 	checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'src']], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/getsignapp/sfdc_trailhead']]]
 	    
-    	def file = new File("src/deploy")
-	file.mkdir()
-	String sourceDir = "src/force-app/main/default"
-	String destinationDir = "src/deploy"
-	new AntBuilder().copy(todir: destinationDir) {
-	    fileset(dir: sourceDir)
-	}
-	def psrc = new File("src/manifest/package.xml")
-	def pdst = new File("src/deploy/package.xml")
-	pdst << psrc.xml
+	bat("if not exist src\deploy")
+	bat("xcopy src\force-app\main\default src\deploy /O /X /E /H /K")
+	bat("copy src\manifest\package.xml src\deploy")
     }
 
 
