@@ -8,10 +8,9 @@ node {
     def TEST_LEVEL='RunLocalTests'
     def SF_INSTANCE_URL = env.SF_INSTANCE_URL ?: "https://login.salesforce.com"
 	
-    def DEPLOYDIR='src\\deploy\\source'
+    def DEPLOYDIR='src\\deploy'
     def MAINSOURCEDIR='src\\force-app\\main\\default'
     def PACKAGESOURCEDIR='src\\manifest\\package.xml'
-    def PACKAGEDEPLOYDIR='src\\deploy'
     
     def toolbelt = tool 'toolbelt'
 
@@ -25,7 +24,7 @@ node {
 	checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'src']], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/getsignapp/sfdc_trailhead']]]
 	    
 	command "mkdir ${DEPLOYDIR}"
-	command "copy ${PACKAGESOURCEDIR} ${PACKAGEDEPLOYDIR}"
+	command "copy ${PACKAGESOURCEDIR} ${DEPLOYDIR}"
 	command "xcopy ${MAINSOURCEDIR} ${DEPLOYDIR} /O /X /E /H /K"
     }
 
