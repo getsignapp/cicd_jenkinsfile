@@ -2,10 +2,10 @@
 
 node {
 
-    def SF_CONSUMER_KEY='3MVG9d8..z.hDcPJOGrW9wLMhVhsuEIf01bMi9DTVAVHs09rs9IiUo4ZrlST4GrBAZUec2Aje9xOlP6ezKI9B'
-    def SF_USERNAME='ankit_trailhead@gmail.com'
-    def SERVER_KEY_CREDENTIALS_ID='ankit_trailhead@server.key'
-    def TEST_LEVEL='RunLocalTests'
+    def SF_CONSUMER_KEY = env.SF_CONSUMER_KEY
+    def SF_USERNAME = env.SF_USERNAME
+    def SERVER_KEY_CREDENTIALS_ID = env.SERVER_KEY_CREDENTIALS_ID
+    def TEST_LEVEL = env.TEST_LEVEL
     def SF_INSTANCE_URL = env.SF_INSTANCE_URL ?: "https://login.salesforce.com"
 	
     def DEPLOYDIR='src\\deploy'
