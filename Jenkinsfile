@@ -5,7 +5,9 @@ node {
     def SF_CONSUMER_KEY='3MVG9d8..z.hDcPJOGrW9wLMhVhsuEIf01bMi9DTVAVHs09rs9IiUo4ZrlST4GrBAZUec2Aje9xOlP6ezKI9B'
     def SF_USERNAME='ankit_trailhead@gmail.com'
     def SERVER_KEY_CREDENTIALS_ID='ankit_trailhead@server.key'
-    def DEPLOYDIR='src/deploy'
+    def DEPLOYDIR='src\deploy'
+    def MAINSOURCEDIR='src\force-app\main\default'
+    def PACKAGESOURCEDIR='src\manifest\package.xml'
     def TEST_LEVEL='RunLocalTests'
     def SF_INSTANCE_URL = env.SF_INSTANCE_URL ?: "https://login.salesforce.com"
 
@@ -20,9 +22,9 @@ node {
 	    
 	checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'src']], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/getsignapp/sfdc_trailhead']]]
 	    
-	command "mkdir src/deploy"
-	command "copy src/manifest/package.xml src/deploy"
-	command "xcopy src/force-app/main/default src/deploy /O /X /E /H /K"
+	command "mkdir ${DEPLOYDIR}"
+	command "copy ${PACKAGESOURCEDIR} ${DEPLOYDIR}"
+	command "xcopy ${MAINSOURCEDIR} ${DEPLOYDIR} /O /X /E /H /K"
     }
 
 
