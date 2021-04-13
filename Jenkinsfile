@@ -20,9 +20,9 @@ node {
 	    
 	checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'src']], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/getsignapp/sfdc_trailhead']]]
 	    
-	command "mkdir src\deploy"
-	command "copy src\manifest\package.xml src\deploy"
-	command "xcopy src\force-app\main\default src\deploy /O /X /E /H /K"
+	command "mkdir src/deploy"
+	command "copy src/manifest/package.xml src/deploy"
+	command "xcopy src/force-app/main/default src/deploy /O /X /E /H /K"
     }
 
 
