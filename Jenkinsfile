@@ -7,6 +7,7 @@ node {
     def SERVER_KEY_CREDENTIALS_ID = env.SERVER_KEY_CREDENTIALS_ID
     def TEST_LEVEL = env.TEST_LEVEL
     def SF_INSTANCE_URL = env.SF_INSTANCE_URL ?: "https://login.salesforce.com"
+    def SC_URL = env.SC_URL
 	
     def DEPLOYDIR='src\\deploy'
     def MAINSOURCEDIR='src\\force-app\\main\\default'
@@ -21,7 +22,7 @@ node {
     stage('checkout source') {
         checkout scm
 	    
-	checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'src']], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/getsignapp/sfdc_trailhead']]]
+	checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'src']], userRemoteConfigs: [[credentialsId: 'github', url: ${SC_URL}]]]
 	    
 	command "mkdir ${DEPLOYDIR}"
 	command "copy ${PACKAGESOURCEDIR} ${DEPLOYDIR}"
