@@ -4,7 +4,7 @@ node {
 
     def SF_CONSUMER_KEY='3MVG9d8..z.hDcPJOGrW9wLMhVhsuEIf01bMi9DTVAVHs09rs9IiUo4ZrlST4GrBAZUec2Aje9xOlP6ezKI9B'
     def SF_USERNAME='ankit_trailhead@gmail.com'
-    //def SERVER_KEY_CREDENTIALS_ID='ankit_trailhead@server.key'
+    def SERVER_KEY_CREDENTIALS_ID='ankit_trailhead@server.key'
     def DEPLOYDIR='src'
     def TEST_LEVEL='RunLocalTests'
     def SF_INSTANCE_URL = env.SF_INSTANCE_URL ?: "https://test.salesforce.com"
