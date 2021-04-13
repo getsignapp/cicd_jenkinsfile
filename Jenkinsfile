@@ -5,13 +5,11 @@ node {
     def SF_CONSUMER_KEY='3MVG9d8..z.hDcPJOGrW9wLMhVhsuEIf01bMi9DTVAVHs09rs9IiUo4ZrlST4GrBAZUec2Aje9xOlP6ezKI9B'
     def SF_USERNAME='ankit_trailhead@gmail.com'
     def SERVER_KEY_CREDENTIALS_ID='ankit_trailhead@server.key'
-    def DEPLOYDIR='src'
+    def DEPLOYDIR='src/deploy'
     def TEST_LEVEL='RunLocalTests'
     def SF_INSTANCE_URL = env.SF_INSTANCE_URL ?: "https://login.salesforce.com"
 
-
     def toolbelt = tool 'toolbelt'
-
 
     // -------------------------------------------------------------------------
     // Check out code from source control.
@@ -21,6 +19,17 @@ node {
         checkout scm
 	    
 	checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'src']], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/getsignapp/sfdc_trailhead']]]
+	    
+    	def file = new File("src/deploy")
+	file.mkdir()
+	String sourceDir = "src/force-app/main/default"
+	String destinationDir = "src/deploy"
+	new AntBuilder().copy(todir: destinationDir) {
+	    fileset(dir: sourceDir)
+	}
+	def psrc = new File("src/manifest/package.xml")
+	def pdst = new File("src/deploy/package.xml")
+	pdst << psrc.xml
     }
 
 
