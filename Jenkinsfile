@@ -10,7 +10,7 @@ node {
     def SC_URL = env.SC_URL
 	
     def DEPLOYDIR='src/deploy'
-    def MAINSOURCEDIR='src/force-app/main/default'
+    def MAINSOURCEDIR='src/force-app/main/default/'
     def PACKAGESOURCEDIR='src/manifest/package.xml'
     
     def toolbelt = tool 'toolbelt'
