@@ -1,4 +1,58 @@
+
 #!groovy
+import groovy.lang.Binding
+node { 
+	withEnv(["HOME=${env.WORKSPACE}"]) {
+		stage('Checkout') {
+			cleanWs()
+			
+			rm=checkout([$class: 'GitSCM', branches: [[name: '**']], browser: [$class: 'BitbucketWeb', repoUrl: '${SC_URL}'], extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'metadata']], userRemoteConfigs: [[credentialsId: 'GITCREDS', url: '${SC_URL}']]])
+
+            env.SH_BRANCH = "devtest"
+            env.SH_PARENTBRANCH = "dev"
+
+			sh(returnStatus: true, script: """#!/bin/bash
+			mkdir "delta"
+			mkdir "convertdelta"
+			cd metadata
+			git checkout ${env.SH_BRANCH}
+			diffStr=`git diff --name-only origin/${env.SH_PARENTBRANCH} ${env.SH_BRANCH}`
+			diffStr=`echo \$diffStr | sed 's/ /;/g'`
+			echo \$diffStr
+			IFS=';' read -r -a pathArray <<< "\$diffStr"
+			echo "Size is \${#pathArray[@]}"
+			for ele in "\${pathArray[@]}"
+            do
+            echo "\$ele"
+            ele=`echo \$ele | sed 's/\\(\\[\\@\\]\\)//g'`
+            echo "\$ele"
+            lpath=""
+            if [[ "\$ele" == *\\/* ]]
+				then
+					lpath=`echo \$ele | sed 's|\\(.*\\)/.*|\\1|'`
+					lpath=`echo \$lpath | sed 's|force-app/main/default/||'`
+					echo "Folder path is \$lpath"
+					mkdir -p ../delta/\$lpath
+                fi
+			cp \$ele ../delta/\$lpath/
+			cp "\$ele-meta.xml" ../delta/\$lpath/
+			done
+			cp manifest/package.xml ../delta/
+			cd ../convertdelta
+			sfdx force:project:create -n tempProject
+			cd tempProject
+			mkdir temp
+			cp -R ../../delta/* ../../convertdelta/tempProject/temp
+			sfdx force:mdapi:convert -r ./temp -d ./force-app
+			sfdx force:source:convert --rootdir ./force-app --outputdir ./unmanaged
+			rm -r ../../delta/*
+			cp -R unmanaged ../../delta
+			cd ../../delta
+			zip -r unmanaged.zip unmanaged/*
+			""")
+		}
+	}
+}
 
 node {
 
