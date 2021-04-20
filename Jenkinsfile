@@ -1,4 +1,22 @@
 
+def props = readProperties  file:'/projectProperties/${branchName}.properties'
+def L_SH_BRANCH= props['SH_BRANCH']
+env.SH_PARENTBRANCH= props['SH_PARENTBRANCH']
+env.PROJECTNAME= props['PROJECTNAME']
+env.SF_USERNAME= props['SF_USERNAME']
+env.VERIFYONLY= props['VERIFYONLY']
+env.TEST_LEVEL= props['TEST_LEVEL']
+env.SF_INSTANCE_URL= props['SF_INSTANCE_URL']
+env.RUNVERACODE= props['RUNVERACODE']
+env.RUNSONAR= props['RUNSONAR']
+env.RUNSONAR= props['UPLOADNEXUS']
+if(${TRIGGERBRANCH} == null || ${TRIGGERBRANCH} == ""){
+	env.SH_BRANCH=${L_SH_BRANCH}
+}
+else{
+	env.SH_BRANCH=${TRIGGERBRANCH}
+}
+
 #!groovy
 import groovy.lang.Binding
 node { 
